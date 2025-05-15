@@ -3,84 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ワンちゃん画像アプリ (Unsplash版)</title>
+    <meta name="description" content="Premium Dog Galleryは、美しい犬の写真を提供する無料のギャラリーサイトです。高品質な写真をダウンロードしてお使いいただけます。">
+    <meta name="keywords" content="犬,写真,ギャラリー,ダウンロード,無料,dog photos,犬の画像">
+    <meta name="author" content="Premium Dog Gallery">
+    <meta property="og:title" content="Premium Dog Gallery - 美しい犬の写真ギャラリー">
+    <meta property="og:description" content="Premium Dog Galleryは、美しい犬の写真を提供する無料のギャラリーサイトです。高品質な写真をダウンロードしてお使いいただけます。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://premium-dog-gallery.com/og-image.jpg">
+    <meta property="og:url" content="https://premium-dog-gallery.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://premium-dog-gallery.com">
+    <title>Premium Dog Gallery - 美しい犬の写真ギャラリー | 無料ダウンロード</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
     <style>
+        :root {
+            --bg-gradient-1: #1a1a1a;
+            --bg-gradient-2: #2a2a2a;
+            --bg-gradient-3: #333333;
+            --card-bg: rgba(40, 40, 40, 0.7);
+            --card-border: rgba(169, 169, 169, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: rgba(192, 192, 192, 0.9);
+            --accent-hover: #c0c0c0;
+            --button-gradient: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(169, 169, 169, 0.05));
+            --button-border: rgba(192, 192, 192, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Noto Serif JP', serif;
+            background: linear-gradient(135deg, 
+                var(--bg-gradient-1) 0%,
+                var(--bg-gradient-2) 50%,
+                var(--bg-gradient-3) 100%
+            );
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
         }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            background: linear-gradient(to right, var(--accent-hover), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
         .container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            box-shadow: 0 8px 32px var(--shadow-color),
+                       inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
+
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            background: var(--button-gradient);
+            color: var(--text-primary);
+            border: 1px solid var(--button-border);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 400;
+            letter-spacing: 0.1em;
             cursor: pointer;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0 auto 2rem;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 4px var(--shadow-color);
         }
+
         button:hover {
-            background-color: #45a049;
+            background: linear-gradient(135deg, 
+                rgba(192, 192, 192, 0.2),
+                rgba(169, 169, 169, 0.1)
+            );
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
         }
+
+        button:active {
+            transform: translateY(0);
+        }
+
         button:disabled {
-            background-color: #cccccc;
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
+
         .image-container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            position: relative;
+            aspect-ratio: 4/3;
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            border: 1px solid var(--card-border);
         }
+
         #dogImage {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        #dogImage.loaded {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
         #credit {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #666;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-align: center;
         }
+
         #credit a {
-            color: #333;
+            color: var(--accent);
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
         }
+
         #credit a:hover {
-            text-decoration: underline;
+            color: var(--accent-hover);
         }
+
+        #credit a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: right;
+        }
+
+        #credit a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
         .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: none;
-            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid rgba(192, 192, 192, 0.1);
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+        }
+
+        .download-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: auto;
+            border-radius: 0.5rem;
+        }
+
+        .download-btn:hover {
+            color: var(--accent-hover);
+            background: rgba(192, 192, 192, 0.1);
+        }
+
+        .download-btn svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover svg {
+            transform: translateY(2px);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            button {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.875rem;
+            }
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Premium Dog Gallery",
+      "description": "美しい犬の写真を提供する無料のギャラリーサイトです。",
+      "url": "https://premium-dog-gallery.com",
+      "potentialAction": {
+        "@type": "ViewAction",
+        "target": "https://premium-dog-gallery.com"
+      }
+    }
+    </script>
 </head>
 <body>
-    <h1>ワンちゃん画像アプリ</h1>
+    <header class="header">
+        <h1>Premium Dog Gallery</h1>
+        <p>幸せな一瞬を</p>
+    </header>
     
-    <div class="container">
-        <button id="fetchButton">かわいいワンちゃんを表示</button>
-        <div class="image-container">
-            <div class="loading" id="loading">読み込み中...</div>
-            <img id="dogImage" alt="かわいいワンちゃん">
-            <div id="credit"></div>
-        </div>
-    </div>
+    <main class="container">
+        <section class="gallery-controls">
+            <button id="fetchButton" aria-label="新しい写真を表示">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                    <path d="M21 3v5h-5"/>
+                </svg>
+                新しい写真を表示
+            </button>
+        </section>
 
-    <script src="script.js"></script>
+        <section class="gallery-content">
+            <figure class="image-container">
+                <div class="loading" id="loading" aria-label="読み込み中"></div>
+                <img id="dogImage" alt="美しい犬の写真" loading="lazy">
+            </figure>
+            <button class="download-btn" id="downloadBtn" style="display: none;" aria-label="画像をダウンロード">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                画像をダウンロード
+            </button>
+            <div id="credit" class="photo-credit"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; <time datetime="2024">2024</time> Premium Dog Gallery. すべての写真は<a href="https://unsplash.com" rel="noopener noreferrer" target="_blank">Unsplash</a>から提供されています。</p>
+    </footer>
+
+    <script src="script.js" defer></script>
 </body>
 </html> 
