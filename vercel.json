@@ -1,6 +1,12 @@
 {
   "name": "premium-dog-gallery-2025",
   "version": 2,
+  "functions": {
+    "api/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
   "builds": [
     {
       "src": "server.js",
@@ -11,6 +17,9 @@
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
