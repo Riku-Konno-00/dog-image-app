@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ワンちゃん画像アプリ (Unsplash版)</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .image-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #dogImage {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #credit {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        #credit a {
+            color: #333;
+            text-decoration: none;
+        }
+        #credit a:hover {
+            text-decoration: underline;
+        }
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>ワンちゃん画像アプリ</h1>
+    
+    <div class="container">
+        <button id="fetchButton">かわいいワンちゃんを表示</button>
+        <div class="image-container">
+            <div class="loading" id="loading">読み込み中...</div>
+            <img id="dogImage" alt="かわいいワンちゃん">
+            <div id="credit"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
