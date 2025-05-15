@@ -5,21 +5,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const loading = document.getElementById('loading');
     const credit = document.getElementById('credit');
     const downloadBtn = document.getElementById('downloadBtn');
-    const breedSelect = document.getElementById('breedSelect');
 
     // 画像をダウンロードする関数
     async function downloadImage() {
         try {
-            const response = await fetch(dogImage.src);
+            const response = await fetch(dogImage.src, {
+                mode: 'cors',
+                headers: {
+                    'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('画像の取得に失敗しました。');
+            }
+
+            const contentType = response.headers.get('content-type');
+            const extension = contentType.includes('jpeg') ? 'jpg' : 
+                            contentType.includes('png') ? 'png' : 
+                            contentType.includes('webp') ? 'webp' : 'jpg';
+
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'premium-dog-photo.jpg';
+            a.download = `premium-dog-photo.${extension}`;
+            a.style.display = 'none';
             document.body.appendChild(a);
             a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+            
+            // クリーンアップ
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }, 100);
         } catch (error) {
             console.error('ダウンロードに失敗しました:', error);
             showError('画像のダウンロードに失敗しました。');
@@ -62,15 +81,34 @@ document.addEventListener('DOMContentLoaded', function() {
             downloadBtn.style.display = 'none';
             credit.innerHTML = '';
 
-            // 選択された犬種を取得
-            const selectedBreed = breedSelect.value;
-            const query = selectedBreed ? `dog ${selectedBreed}` : 'dog';
-
             // バックエンドAPIから画像を取得
-            const response = await fetch(`/api/photos?breed=${encodeURIComponent(query)}`);
+            const response = await fetch('/api/photos', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             
             if (!response.ok) {
-                throw new Error('画像の取得に失敗しました');
+                const errorData = await response.json().catch(() => ({}));
+                let errorMessage = '予期せぬエラーが発生しました。';
+                
+                switch (response.status) {
+                    case 401:
+                        errorMessage = 'API認証に失敗しました。';
+                        break;
+                    case 403:
+                        errorMessage = 'アクセスが拒否されました。';
+                        break;
+                    case 429:
+                        errorMessage = '1時間あたりのリクエスト制限を超えました。しばらく待ってから再度お試しください。';
+                        break;
+                    case 500:
+                        errorMessage = errorData.details || 'サーバーエラーが発生しました。しばらく待ってから再度お試しください。';
+                        break;
+                    default:
+                        errorMessage = errorData.details || '画像の取得に失敗しました。';
+                }
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
@@ -98,25 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('エラーが発生しました:', error);
             loading.style.display = 'none';
             fetchButton.disabled = false;
-            
-            let errorMessage = '予期せぬエラーが発生しました。';
-            if (error.response) {
-                switch (error.response.status) {
-                    case 401:
-                        errorMessage = 'API認証に失敗しました。';
-                        break;
-                    case 403:
-                        errorMessage = 'アクセスが拒否されました。';
-                        break;
-                    case 429:
-                        errorMessage = '1時間あたりのリクエスト制限を超えました。しばらく待ってから再度お試しください。';
-                        break;
-                    case 500:
-                        errorMessage = 'サーバーエラーが発生しました。しばらく待ってから再度お試しください。';
-                        break;
-                }
-            }
-            showError(errorMessage);
+            showError(error.message || '予期せぬエラーが発生しました。');
         }
     }
 
@@ -126,9 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ボタンクリック時のイベントリスナー
     fetchButton.addEventListener('click', fetchDogImage);
     downloadBtn.addEventListener('click', downloadImage);
-
-    // 犬種選択時に自動で画像を更新
-    breedSelect.addEventListener('change', fetchDogImage);
 
     // キーボードショートカット
     document.addEventListener('keydown', function(e) {
