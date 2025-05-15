@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 // APIエンドポイント
 module.exports = async (req, res) => {
   // CORSヘッダーの設定
